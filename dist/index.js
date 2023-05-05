@@ -6981,7 +6981,10 @@ const core = __importStar(__nccwpck_require__(2186));
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 function run() {
     const token = core.getInput('JIRA_TOKEN');
-    (0, node_fetch_1.default)('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
+    const projectId = core.getInput('JIRA_PROJECT_ID');
+    (0, node_fetch_1.default)(`https://jiradev.bmc.com/rest/api/2/issue/createmeta${new URLSearchParams({
+        projectIds: projectId
+    })}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -6993,7 +6996,7 @@ function run() {
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.json();
     })
-        .then((text) => console.log(text['projects'].length))
+        .then((text) => console.log(text))
         .catch(err => core.notice(err));
 }
 run();
