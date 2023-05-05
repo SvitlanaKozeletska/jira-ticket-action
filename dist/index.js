@@ -6980,7 +6980,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 function run() {
-    const githubIssue = core.getInput('issue', { required: true });
+    // const githubIssue: any = core.getInput('issue', {required: true});
     // core.notice(`Data: ${githubIssue}`);
     (0, node_fetch_1.default)('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
         method: 'GET',

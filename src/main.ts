@@ -5,7 +5,7 @@ import { Octokit } from 'octokit';
 import {JIRA_CONFIG} from './config/config';
 
 function run(): void {
-  const githubIssue: any = core.getInput('issue', {required: true});
+  // const githubIssue: any = core.getInput('issue', {required: true});
   // core.notice(`Data: ${githubIssue}`);
 
   fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
