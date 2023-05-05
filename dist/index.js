@@ -6994,7 +6994,7 @@ function run() {
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.json();
     })
-        .then(text => console.log(text))
+        .then((text) => console.log(text['projects'].length))
         .catch(err => core.notice(err));
 }
 run();

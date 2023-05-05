@@ -23,7 +23,7 @@ function run(): void {
       );
       return response.json();
     })
-    .then(text => console.log(text))
+    .then((text: any) => console.log(text['projects'].length))
     .catch(err => core.notice(err));
 }
 
