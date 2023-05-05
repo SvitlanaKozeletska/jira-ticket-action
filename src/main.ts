@@ -8,10 +8,12 @@ function run(): void {
   // const githubIssue: any = core.getInput('issue', {required: true});
   // core.notice(`Data: ${githubIssue}`);
 
+  const token = core.getInput('JIRADEV_AUTHORIZATION_TOKEN')
+
   fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer MDM1Njg4NDM2MzM1OhpnvHrEr4LxicgqnZvTM/BMQv8d`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/json'
     }
   })
