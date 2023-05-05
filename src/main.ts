@@ -6,7 +6,7 @@ function run(): void {
   const projectId = core.getInput('JIRA_PROJECT_ID');
 
 
-  fetch(`https://jiradev.bmc.com/rest/api/2/issue/createmeta${new URLSearchParams({
+  fetch(`https://jiradev.bmc.com/rest/api/2/issue/createmeta?${new URLSearchParams({
       projectIds: projectId
   })}`,
     {
