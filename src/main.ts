@@ -24,10 +24,7 @@ function run(): void {
     .then(text => {
       core.setOutput('http-response', text);
     })
-    .catch(err => console.error(err));
-
-  // const response = `Awesome awesome!`;
-  // core.setOutput('http-response', response);
+    .catch(err => core.notice(err));
 }
 
 run();
