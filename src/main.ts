@@ -6,7 +6,7 @@ import {JIRA_CONFIG} from './config/config';
 
 function run(): void {
   const githubIssue: any = core.getInput('issue', {required: true});
-  core.notice(`Data: ${githubIssue}`);
+  // core.notice(`Data: ${githubIssue}`);
 
   fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
     method: 'GET',
