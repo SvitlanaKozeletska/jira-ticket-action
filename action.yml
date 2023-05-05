@@ -1,0 +1,21 @@
+name: 'Create JIRA ticket'
+description: Create JIRA ticket based on the fetched GitHub issue
+
+inputs:
+  issue:
+    description: >
+      Issue to be created in JIRA
+    required: true
+  # JIRA related inputs
+  jira-user:
+    description: >
+
+
+outputs:
+  http-response:
+    description: >
+      HTTP response for POST request on JIRA ticket creation
+
+runs:
+  using: 'node16'
+  main: 'dist/main.js'

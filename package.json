@@ -1,0 +1,29 @@
+{
+  "name": "jira-ticket-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "package": "ncc build src/main.ts -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SvitlanaKozeletska/jira-ticket-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SvitlanaKozeletska/jira-ticket-action/issues"
+  },
+  "homepage": "https://github.com/SvitlanaKozeletska/jira-ticket-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3",
+    "@vercel/ncc": "^0.36.1",
+    "typescript": "^5.0.4"
+  }
+}
