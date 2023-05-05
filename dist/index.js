@@ -2736,7 +2736,7 @@ const core = __importStar(__nccwpck_require__(186));
 function run() {
     const issue = core.getInput('issue', { required: true });
     core.notice(`Data: ${issue}`);
-    const response = `Awesome!`;
+    const response = `Awesome awesome!`;
     core.setOutput('http-response', response);
 }
 run();
