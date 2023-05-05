@@ -16,13 +16,12 @@ function run(): void {
     }
   })
     .then(response => {
-      core.debug(
-        `Response: ${response}`
+      console.log(
+        `Response: ${response.status} ${response.statusText}`
       );
-      core.setOutput('http-response', response);
-    }, () => {
-
+      return response.json();
     })
+    .then(text => console.log(text))
     .catch(err => core.notice(err));
 }
 
