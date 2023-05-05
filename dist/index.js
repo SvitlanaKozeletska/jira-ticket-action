@@ -6990,8 +6990,10 @@ function run() {
         }
     })
         .then(response => {
-        core.notice(`Response: ${response['projects'].length}`);
+        debugger;
+        core.notice(`Response: ${response}`);
         core.setOutput('http-response', response);
+    }, () => {
     })
         .catch(err => core.notice(err));
 }

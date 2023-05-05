@@ -16,10 +16,13 @@ function run(): void {
     }
   })
     .then(response => {
+      debugger
       core.notice(
-        `Response: ${response['projects'].length}`
+        `Response: ${response}`
       );
       core.setOutput('http-response', response);
+    }, () => {
+
     })
     .catch(err => core.notice(err));
 }
