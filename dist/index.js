@@ -6986,7 +6986,7 @@ function run() {
     (0, node_fetch_1.default)('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer MDM1Njg4NDM2MzM1OhpnvHrEr4LxicgqnZvTM/BMQv8d`,
             'Accept': 'application/json'
         }
     })
