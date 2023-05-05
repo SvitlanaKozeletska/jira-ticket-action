@@ -17,7 +17,7 @@ function run(): void {
   })
     .then(response => {
       core.notice(
-        `Response: ${response}`
+        `Response: ${response['projects'].length}`
       );
       core.setOutput('http-response', response);
     })

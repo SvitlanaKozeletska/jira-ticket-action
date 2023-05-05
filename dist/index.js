@@ -6990,7 +6990,7 @@ function run() {
         }
     })
         .then(response => {
-        core.notice(`Response: ${response}`);
+        core.notice(`Response: ${response['projects'].length}`);
         core.setOutput('http-response', response);
     })
         .catch(err => core.notice(err));
