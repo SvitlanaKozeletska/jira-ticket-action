@@ -6990,11 +6990,8 @@ function run() {
         }
     })
         .then(response => {
-        core.notice(`Response: ${response.status} ${response.statusText}`);
-        return response.text();
-    })
-        .then(text => {
-        core.setOutput('http-response', text);
+        core.notice(`Response: ${response}`);
+        core.setOutput('http-response', response);
     })
         .catch(err => core.notice(err));
 }

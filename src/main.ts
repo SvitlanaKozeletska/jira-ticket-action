@@ -17,12 +17,9 @@ function run(): void {
   })
     .then(response => {
       core.notice(
-        `Response: ${response.status} ${response.statusText}`
+        `Response: ${response}`
       );
-      return response.text();
-    })
-    .then(text => {
-      core.setOutput('http-response', text);
+      core.setOutput('http-response', response);
     })
     .catch(err => core.notice(err));
 }
