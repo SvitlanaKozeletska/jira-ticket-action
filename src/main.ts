@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 // import * as http from '@actions/http-client';
 import { Octokit } from 'octokit';
 import {JIRA_CONFIG} from './config/config';
