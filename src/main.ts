@@ -1,14 +1,8 @@
 import * as core from '@actions/core';
 import fetch from 'node-fetch';
-// import * as http from '@actions/http-client';
-import { Octokit } from 'octokit';
-import {JIRA_CONFIG} from './config/config';
 
 function run(): void {
-  // const githubIssue: any = core.getInput('issue', {required: true});
-  // core.notice(`Data: ${githubIssue}`);
-
-  const token = core.getInput('JIRADEV_AUTHORIZATION_TOKEN')
+  const token = core.getInput('JIRA_TOKEN')
 
 
   fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
