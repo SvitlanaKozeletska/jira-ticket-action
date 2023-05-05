@@ -7,8 +7,41 @@ inputs:
       Issue to be created in JIRA
     required: true
   # JIRA related inputs
-  jira-user:
+  JIRA_TOKEN: # JIRA token for making api calls
     description: >
+      Github secret for the JIRA token for external access
+    required: true
+    default: MDM1Njg4NDM2MzM1OhpnvHrEr4LxicgqnZvTM/BMQv8d
+  ZENHUB_TOKEN:
+    description: >
+      Github secret for the Zenhub token for external access
+    required: true
+    default: 940ccb6ea228f1e8facdcb723e315962657d27312cf1a15b3d35b75dbab0d0f18f6e3d704fc61c44 # uxd-R2D2 token
+  JIRA_PROJECT_ID: #
+    description: >
+      The project id for Jira
+    required: true
+    default: '10506'
+  JIRA_PROJECT_NAME: #
+    description: >
+      The project key for Jira
+    required: true
+    default: UX
+  JIRA_URI:
+    description: >
+      The Jira URI used for the REST API to make the requests to
+    required: true
+  ISSUE_TYPE:
+    description: >
+      The type of the issue to be used while searching for existing issues.
+      This is needed in order to avoid duplicating already raised issues
+    required: true
+    default: ''
+  EXTRA_JIRA_FIELDS:
+    description: >
+      Provide the extra fields you need to include in the payload sent to Jira during an issue creation
+    required: false
+    default: ''
 
 
 outputs:
