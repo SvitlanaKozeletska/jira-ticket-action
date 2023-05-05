@@ -6986,11 +6986,12 @@ function run() {
     (0, node_fetch_1.default)('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
         method: 'GET',
         headers: {
-            'Authorization': `Basic ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
         }
     })
         .then(response => {
+        console.log(token);
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.json();
     })

@@ -10,14 +10,16 @@ function run(): void {
 
   const token = core.getInput('JIRADEV_AUTHORIZATION_TOKEN')
 
+
   fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
     method: 'GET',
     headers: {
-      'Authorization': `Basic ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/json'
     }
   })
     .then(response => {
+      console.log(token);
       console.log(
         `Response: ${response.status} ${response.statusText}`
       );
