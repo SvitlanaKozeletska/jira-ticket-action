@@ -16,8 +16,7 @@ function run(): void {
     }
   })
     .then(response => {
-      debugger
-      core.notice(
+      core.debug(
         `Response: ${response}`
       );
       core.setOutput('http-response', response);

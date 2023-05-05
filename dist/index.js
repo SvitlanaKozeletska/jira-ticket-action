@@ -6990,8 +6990,7 @@ function run() {
         }
     })
         .then(response => {
-        debugger;
-        core.notice(`Response: ${response}`);
+        core.debug(`Response: ${response}`);
         core.setOutput('http-response', response);
     }, () => {
     })
