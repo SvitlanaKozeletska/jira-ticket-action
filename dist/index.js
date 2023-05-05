@@ -6973,13 +6973,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const fetch = __nccwpck_require__(4429);
+const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 function run() {
     const githubIssue = core.getInput('issue', { required: true });
     core.notice(`Data: ${githubIssue}`);
-    fetch('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
+    (0, node_fetch_1.default)('https://jiradev.bmc.com/rest/api/2/issue/createmeta', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer MDM1Njg4NDM2MzM1OhpnvHrEr4LxicgqnZvTM/BMQv8d`,
@@ -6993,9 +6996,7 @@ function run() {
         .then(text => {
         core.setOutput('http-response', text);
     })
-        .catch(err => console.error(err));
-    // const response = `Awesome awesome!`;
-    // core.setOutput('http-response', response);
+        .catch(err => core.notice(err));
 }
 run();
 
