@@ -51,7 +51,6 @@ function run(): void {
       // need to filter by required to create JIRA ticket
       const githubIssue = JSON.parse(core.getInput('issue'));
       const createIssueRequestBody = {
-        fields: {
           ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields),
           project: {
             id: JIRA_CONFIG.JIRA_PROJECT_ID
@@ -64,8 +63,6 @@ function run(): void {
           },
           summary: githubIssue['title'],
           description: githubIssue['body']
-        },
-        update: {}
       };
 
       console.log('createIssueRequestBody', createIssueRequestBody);
@@ -78,7 +75,7 @@ function run(): void {
             'Authorization': `Bearer ${JIRA_CONFIG.JIRA_TOKEN}`,
             'Accept': 'application/json'
           },
-          body: JSON.stringify(createIssueRequestBody)
+          body: `{"fields": ${JSON.stringify(createIssueRequestBody)}}` //'fields', createIssueRequestBody
         })
     })
     .then(response => response.json())
