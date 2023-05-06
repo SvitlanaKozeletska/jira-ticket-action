@@ -6945,7 +6945,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 399:
+/***/ 4561:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -6973,31 +6973,86 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.REST_CONFIG = exports.JIRA_CONFIG = exports.ZENHUB_CONFIG = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+exports.ZENHUB_CONFIG = {
+    BASE_URI: 'https://zenhub.bmc.com/api/',
+    GITHUB_REPO_ID: '1380',
+    GITHUB_REPO_NAME: 'adapt-angular'
+};
+exports.JIRA_CONFIG = {
+    JIRA_TOKEN: core.getInput('JIRA_TOKEN'),
+    JIRA_PROJECT_ID: core.getInput('JIRA_PROJECT_ID'),
+    JIRA_PROJECT_NAME: core.getInput('JIRA_PROJECT_NAME'),
+    JIRA_URI: core.getInput('JIRA_URI'),
+    ISSUE_TYPE: core.getInput('ISSUE_TYPE'),
+    JIRA_ISSUE_METADATA_ENDPOINT: '/rest/api/2/issue/createmeta',
+    JIRA_ISSUE_CREATION_ENDPOINT: '/rest/api/2/issue',
+    JIRA_ISSUE_SEARCH_ENDPOINT: '/rest/api/2/search',
+};
+exports.REST_CONFIG = {
+    'Accept': 'application/json'
+};
+
+
+/***/ }),
+
+/***/ 399:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
+const config_1 = __nccwpck_require__(4561);
 function run() {
-    const token = core.getInput('JIRA_TOKEN');
-    const projectId = core.getInput('JIRA_PROJECT_ID');
-    (0, node_fetch_1.default)(`https://jiradev.bmc.com/rest/api/2/issue/createmeta?${new URLSearchParams({
-        projectIds: projectId
+    (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+        projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
     })}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${config_1.JIRA_CONFIG.JIRA_TOKEN}`,
             'Accept': 'application/json'
         }
     })
         .then(response => {
-        console.log(token);
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.json();
     })
-        .then((text) => console.log(text))
-        .catch(err => core.notice(err));
+        .then((response) => {
+        console.log(response.projects);
+        const issueMetadata = isIssueTypeValid(response.projects['issuetypes']);
+        console.log('issueMetadata:', issueMetadata);
+        if (!issueMetadata) {
+            throw new Error('Such issue type does not allowed for the current project');
+        }
+        // get issue type metadata
+        return (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+            projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID,
+            issuetypeIds: issueMetadata['id'],
+            expand: 'projects.issuetypes.fields'
+        })}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${config_1.JIRA_CONFIG.JIRA_TOKEN}`,
+                'Accept': 'application/json'
+            }
+        });
+    })
+        .then((response) => {
+        console.log(`Response: ${response}`);
+        return response.json();
+    })
+        .then(response => console.log(response))
+        .catch(err => console.log(err));
+}
+// check whether provided ISSUE_TYPE is valid issue type for the specified project
+function isIssueTypeValid(issueTypes) {
+    return issueTypes.find(issueType => issueType.name === config_1.JIRA_CONFIG.ISSUE_TYPE);
 }
 run();
 

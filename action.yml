@@ -25,6 +25,7 @@ inputs:
     description: >
       The Jira URI used for the REST API to make the requests to
     required: true
+    default: jiradev.bmc.com
   ISSUE_TYPE:
     description: >
       The type of the issue to be used while searching for existing issues.

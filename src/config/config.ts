@@ -6,12 +6,22 @@ export const ZENHUB_CONFIG = {
   GITHUB_REPO_NAME: 'adapt-angular'
 };
 
-export const JIRA_CONFIG = {
+export const JIRA_CONFIG: {
+  JIRA_TOKEN: string;
+  JIRA_PROJECT_ID: string;
+  JIRA_PROJECT_NAME: string;
+  JIRA_URI: string;
+  ISSUE_TYPE: string;
+  JIRA_ISSUE_METADATA_ENDPOINT: string;
+  JIRA_ISSUE_CREATION_ENDPOINT: string;
+  JIRA_ISSUE_SEARCH_ENDPOINT: string;
+} = {
   JIRA_TOKEN: core.getInput('JIRA_TOKEN'),
   JIRA_PROJECT_ID: core.getInput('JIRA_PROJECT_ID'),
   JIRA_PROJECT_NAME: core.getInput('JIRA_PROJECT_NAME'),
   JIRA_URI: core.getInput('JIRA_URI'),
   ISSUE_TYPE: core.getInput('ISSUE_TYPE'),
+  JIRA_ISSUE_METADATA_ENDPOINT: '/rest/api/2/issue/createmeta',
   JIRA_ISSUE_CREATION_ENDPOINT: '/rest/api/2/issue',
   JIRA_ISSUE_SEARCH_ENDPOINT: '/rest/api/2/search',
 };
