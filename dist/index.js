@@ -7010,6 +7010,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 const config_1 = __nccwpck_require__(4561);
 function run() {
+    // retrieve metadata about the options for creating JIRA issues.
+    // This step is required as we firstly need to check whether provided issue type (ISSUE_TYPE input)
+    // is valid type for the provided project (JIRA_PROJECT_ID)
     (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_URI}${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
         projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
     })}`, {
@@ -7019,21 +7022,20 @@ function run() {
             'Accept': 'application/json'
         }
     })
-        .then(response => {
-        console.log(`Response: ${response.status} ${response.statusText}`);
-        return response.json();
-    })
+        .then(response => response.json())
+        .then((data) => data)
         .then((response) => {
         console.log(response.projects);
-        const issueMetadata = isIssueTypeValid(response.projects[0]['issuetypes']);
+        const issueMetadata = isIssueTypeValid(response.projects[0].issuetypes);
         console.log('issueMetadata:', issueMetadata);
         if (!issueMetadata) {
             throw new Error('Such issue type does not allowed for the current project');
         }
         // get issue type metadata
+        // https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-createmeta-get
         return (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_URI}${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
             projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID,
-            issuetypeIds: issueMetadata['id'],
+            issuetypeIds: issueMetadata.id,
             expand: 'projects.issuetypes.fields'
         })}`, {
             method: 'GET',
@@ -7043,16 +7045,50 @@ function run() {
             }
         });
     })
+        .then(response => response.json())
+        .then(response => response)
         .then((response) => {
-        console.log(`Response: ${response}`);
-        return response.json();
+        // list of issue screen fields to update
+        // need to filter by required to create JIRA ticket
+        console.log(response.projects[0].issuetypes[0].fields);
+        const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
+        console.log('createIssueRequestBody', createIssueRequestBody);
     })
-        .then(response => console.log(response))
         .catch(err => console.log(err));
 }
 // check whether provided ISSUE_TYPE is valid issue type for the specified project
 function isIssueTypeValid(issueTypes) {
-    return issueTypes.find(issueType => issueType.name === config_1.JIRA_CONFIG.ISSUE_TYPE);
+    if (issueTypes.length) {
+        return issueTypes.find(issueType => issueType.name === config_1.JIRA_CONFIG.ISSUE_TYPE);
+    }
+}
+function processIssueFields(fields) {
+    if (fields) {
+        const issueField = {};
+        const issueFieldsArray = Object.keys(fields);
+        issueFieldsArray.forEach((key) => {
+            var _a;
+            const field = fields[key];
+            if (field.required && !field.hasDefaultValue) {
+                console.log(field);
+                // explicitly check for fieldid = "issuetype"
+                if (field.fieldId === "issuetype") {
+                    issueField['issuetype'] = {
+                        name: 'Task'
+                    };
+                }
+                else if (field.fieldId === "summary") { // explicitly check for fieldid = "summary"
+                    issueField['summary'] = 'Issue summary';
+                }
+                else if ((_a = field.allowedValues) === null || _a === void 0 ? void 0 : _a.length) {
+                    // set data for required field
+                    // check if allowedValues array is present
+                    issueField[key] = field.allowedValues[field.allowedValues.length - 1];
+                }
+            }
+        });
+        return issueField;
+    }
 }
 run();
 

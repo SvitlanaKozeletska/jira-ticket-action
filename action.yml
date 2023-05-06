@@ -19,7 +19,7 @@ inputs:
   JIRA_PROJECT_NAME: #
     description: >
       The project key for Jira
-    required: true
+    required: false
     default: UX
   JIRA_URI:
     description: >
