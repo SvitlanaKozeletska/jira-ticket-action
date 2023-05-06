@@ -7074,23 +7074,16 @@ function run() {
         .then((response) => {
         // list of issue screen fields to update
         // need to filter by required to create JIRA ticket
-        // console.log(response.projects[0].issuetypes[0].fields);
-        const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
-        if (createIssueRequestBody) {
-            const issue = JSON.parse(core.getInput('issue'));
-            createIssueRequestBody['project'] = {
+        const githubIssue = JSON.parse(core.getInput('issue'));
+        const createIssueRequestBody = Object.assign({ project: {
                 id: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
-            };
-            createIssueRequestBody['assignee'] = {
-                name: issue['assignee']['login']
-            };
-            createIssueRequestBody['summary'] = {
-                name: issue['title']
-            };
-            createIssueRequestBody['description'] = {
-                name: issue['body']
-            };
-        }
+            }, issuetype: {
+                name: config_1.JIRA_CONFIG.ISSUE_TYPE
+            }, assignee: {
+                name: githubIssue['assignee']['login']
+            }, summary: {
+                name: githubIssue['title'],
+            }, description: githubIssue['body'] }, processIssueRequiredFields(response.projects[0].issuetypes[0].fields));
         console.log('createIssueRequestBody', createIssueRequestBody);
     })
         .catch(err => console.log(err));
@@ -7101,7 +7094,7 @@ function isIssueTypeValid(issueTypes) {
         return issueTypes.find(issueType => issueType.name === config_1.JIRA_CONFIG.ISSUE_TYPE);
     }
 }
-function processIssueFields(fields) {
+function processIssueRequiredFields(fields) {
     if (fields) {
         const issueField = {};
         const issueFieldsArray = Object.keys(fields);

@@ -49,25 +49,23 @@ function run(): void {
     .then((response: JIRAIssueCreateMetadata) => {
       // list of issue screen fields to update
       // need to filter by required to create JIRA ticket
-      // console.log(response.projects[0].issuetypes[0].fields);
-      const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
-
-      if (createIssueRequestBody) {
-        const issue = JSON.parse(core.getInput('issue'));
-
-        createIssueRequestBody['project'] = {
+      const githubIssue = JSON.parse(core.getInput('issue'));
+      const createIssueRequestBody = {
+        project: {
           id: JIRA_CONFIG.JIRA_PROJECT_ID
-        };
-        createIssueRequestBody['assignee'] = {
-          name: issue['assignee']['login']
-        };
-        createIssueRequestBody['summary'] = {
-          name: issue['title']
-        };
-        createIssueRequestBody['description'] = {
-          name: issue['body']
-        };
-      }
+        },
+        issuetype: {
+          name: JIRA_CONFIG.ISSUE_TYPE
+        },
+        assignee: {
+          name: githubIssue['assignee']['login']
+        },
+        summary: {
+          name: githubIssue['title'],
+        },
+        description: githubIssue['body'],
+        ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields)
+      };
 
       console.log('createIssueRequestBody', createIssueRequestBody);
 
@@ -82,7 +80,7 @@ function isIssueTypeValid(issueTypes: IssueTypeIssueCreateMetadata[]): IssueType
   }
 }
 
-function processIssueFields(fields: object): object | undefined {
+function processIssueRequiredFields(fields: object): object | undefined {
   if (fields) {
     const issueField: any = {};
     const issueFieldsArray: string[] = Object.keys(fields);
