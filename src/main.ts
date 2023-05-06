@@ -53,7 +53,7 @@ function run(): void {
       const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
 
       if (createIssueRequestBody) {
-        console.log(core.getInput('issue')['assignee']);
+        console.log(JSON.parse(core.getInput('issue'))['assignee']);
         // createIssueRequestBody['project'] = {
         //   id: JIRA_CONFIG.JIRA_PROJECT_ID
         // };
