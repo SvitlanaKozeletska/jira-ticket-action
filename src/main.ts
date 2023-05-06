@@ -20,10 +20,10 @@ function run(): void {
     .then(response => response.json())
     .then((data) => data as JIRAIssueCreateMetadata)
     .then((response: JIRAIssueCreateMetadata) => {
-      console.log(response.projects);
+      // console.log(response.projects);
 
       const issueMetadata = isIssueTypeValid(response.projects[0].issuetypes);
-      console.log('issueMetadata:', issueMetadata);
+      // console.log('issueMetadata:', issueMetadata);
 
       if (!issueMetadata) {
         throw new Error('Such issue type does not allowed for the current project');
@@ -49,22 +49,23 @@ function run(): void {
     .then((response: JIRAIssueCreateMetadata) => {
       // list of issue screen fields to update
       // need to filter by required to create JIRA ticket
-      console.log(response.projects[0].issuetypes[0].fields);
+      // console.log(response.projects[0].issuetypes[0].fields);
       const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
 
       if (createIssueRequestBody) {
-        createIssueRequestBody['project'] = {
-          id: JIRA_CONFIG.JIRA_PROJECT_ID
-        };
-        createIssueRequestBody['assignee'] = {
-          name: core.getInput('issue')['assignee']['login']
-        };
-        createIssueRequestBody['summary'] = {
-          name: core.getInput('issue')['title']
-        };
-        createIssueRequestBody['description'] = {
-          name: core.getInput('issue')['body']
-        };
+        console.log(core.getInput('issue'));
+        // createIssueRequestBody['project'] = {
+        //   id: JIRA_CONFIG.JIRA_PROJECT_ID
+        // };
+        // createIssueRequestBody['assignee'] = {
+        //   name: core.getInput('issue')['assignee']['login']
+        // };
+        // createIssueRequestBody['summary'] = {
+        //   name: core.getInput('issue')['title']
+        // };
+        // createIssueRequestBody['description'] = {
+        //   name: core.getInput('issue')['body']
+        // };
       }
 
       console.log('createIssueRequestBody', createIssueRequestBody);
