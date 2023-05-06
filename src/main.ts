@@ -21,7 +21,7 @@ function run(): void {
     .then((response: any) => {
       console.log(response.projects);
 
-      const issueMetadata = isIssueTypeValid(response.projects['issuetypes']);
+      const issueMetadata = isIssueTypeValid(response.projects[0]['issuetypes']);
       console.log('issueMetadata:', issueMetadata);
 
       if (!issueMetadata) {

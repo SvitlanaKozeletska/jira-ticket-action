@@ -7025,7 +7025,7 @@ function run() {
     })
         .then((response) => {
         console.log(response.projects);
-        const issueMetadata = isIssueTypeValid(response.projects['issuetypes']);
+        const issueMetadata = isIssueTypeValid(response.projects[0]['issuetypes']);
         console.log('issueMetadata:', issueMetadata);
         if (!issueMetadata) {
             throw new Error('Such issue type does not allowed for the current project');
