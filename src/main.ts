@@ -81,7 +81,7 @@ function run(): void {
           body: JSON.stringify(createIssueRequestBody) //'fields', createIssueRequestBody
         })
     })
-    // .then(response => response.json())
+    .then(response => response.json())
     .then(response => console.log('JIRA ticket', response))
     .catch(err => console.log(err));
 }
