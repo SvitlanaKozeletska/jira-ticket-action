@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import fetch from 'node-fetch';
 import {JIRA_CONFIG} from './config/config';
 import {IssueTypeIssueCreateMetadata, JIRAIssueCreateMetadata, request} from './models/models';
@@ -50,6 +51,22 @@ function run(): void {
       // need to filter by required to create JIRA ticket
       console.log(response.projects[0].issuetypes[0].fields);
       const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
+
+      if (createIssueRequestBody) {
+        createIssueRequestBody['project'] = {
+          id: JIRA_CONFIG.JIRA_PROJECT_ID
+        };
+        createIssueRequestBody['assignee'] = {
+          name: core.getInput('issue')['assignee']['login']
+        };
+        createIssueRequestBody['summary'] = {
+          name: core.getInput('issue')['title']
+        };
+        createIssueRequestBody['description'] = {
+          name: core.getInput('issue')['body']
+        };
+      }
+
       console.log('createIssueRequestBody', createIssueRequestBody);
 
     })
@@ -74,17 +91,19 @@ function processIssueFields(fields: object): object | undefined {
         console.log(field);
 
         // explicitly check for fieldid = "issuetype"
-        if (field.fieldId === "issuetype") {
-          issueField['issuetype'] = {
-            name: 'Task'
-          };
-        } else if (field.fieldId === "summary") { // explicitly check for fieldid = "summary"
-          issueField['summary'] = 'Issue summary';
-        } else if (field.allowedValues?.length) {
+        // if (field.fieldId === "issuetype") {
+        //   issueField['issuetype'] = {
+        //     name: 'Task'
+        //   };
+        // } else
+          if (field.allowedValues?.length) {
           // set data for required field
           // check if allowedValues array is present
           issueField[key] = field.allowedValues[field.allowedValues.length - 1];
         }
+        // else if (field.fieldId === "summary") { // explicitly check for fieldid = "summary"
+        //   issueField['summary'] = 'Issue summary';
+        // }
       }
     });
 
