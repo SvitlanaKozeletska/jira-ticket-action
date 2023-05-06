@@ -7123,7 +7123,7 @@ function processIssueRequiredFields(fields) {
                 if ((_a = field.allowedValues) === null || _a === void 0 ? void 0 : _a.length) {
                     // set data for required field
                     // check if allowedValues array is present
-                    issueField[key] = field.allowedValues[field.allowedValues.length - 1];
+                    issueField[key] = field.schema.type === 'array' ? [field.allowedValues[field.allowedValues.length - 1]] : field.allowedValues[field.allowedValues.length - 1];
                 }
                 // else if (field.fieldId === "summary") { // explicitly check for fieldid = "summary"
                 //   issueField['summary'] = 'Issue summary';

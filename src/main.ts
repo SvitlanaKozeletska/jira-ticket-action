@@ -112,7 +112,7 @@ function processIssueRequiredFields(fields: object): object | undefined {
           if (field.allowedValues?.length) {
           // set data for required field
           // check if allowedValues array is present
-          issueField[key] = field.allowedValues[field.allowedValues.length - 1];
+          issueField[key] = field.schema.type === 'array' ? [field.allowedValues[field.allowedValues.length - 1]] : field.allowedValues[field.allowedValues.length - 1];
         }
         // else if (field.fieldId === "summary") { // explicitly check for fieldid = "summary"
         //   issueField['summary'] = 'Issue summary';
