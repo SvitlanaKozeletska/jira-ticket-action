@@ -7075,15 +7075,13 @@ function run() {
         // list of issue screen fields to update
         // need to filter by required to create JIRA ticket
         const githubIssue = JSON.parse(core.getInput('issue'));
-        const createIssueRequestBody = Object.assign({ project: {
+        const createIssueRequestBody = Object.assign(Object.assign({}, processIssueRequiredFields(response.projects[0].issuetypes[0].fields)), { project: {
                 id: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
             }, issuetype: {
                 name: config_1.JIRA_CONFIG.ISSUE_TYPE
             }, assignee: {
                 name: githubIssue['assignee']['login']
-            }, summary: {
-                name: githubIssue['title'],
-            }, description: githubIssue['body'] }, processIssueRequiredFields(response.projects[0].issuetypes[0].fields));
+            }, summary: githubIssue['title'], description: githubIssue['body'] });
         console.log('createIssueRequestBody', createIssueRequestBody);
     })
         .catch(err => console.log(err));

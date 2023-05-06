@@ -51,6 +51,7 @@ function run(): void {
       // need to filter by required to create JIRA ticket
       const githubIssue = JSON.parse(core.getInput('issue'));
       const createIssueRequestBody = {
+        ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields),
         project: {
           id: JIRA_CONFIG.JIRA_PROJECT_ID
         },
@@ -60,11 +61,8 @@ function run(): void {
         assignee: {
           name: githubIssue['assignee']['login']
         },
-        summary: {
-          name: githubIssue['title'],
-        },
-        description: githubIssue['body'],
-        ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields)
+        summary: githubIssue['title'],
+        description: githubIssue['body']
       };
 
       console.log('createIssueRequestBody', createIssueRequestBody);
@@ -84,6 +82,7 @@ function processIssueRequiredFields(fields: object): object | undefined {
   if (fields) {
     const issueField: any = {};
     const issueFieldsArray: string[] = Object.keys(fields);
+
     issueFieldsArray.forEach((key: string) => {
       const field = fields[key];
 
