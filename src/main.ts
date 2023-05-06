@@ -53,7 +53,7 @@ function run(): void {
 }
 
 // check whether provided ISSUE_TYPE is valid issue type for the specified project
-function isIssueTypeValid(issueTypes: any[]): boolean {
+function isIssueTypeValid(issueTypes: any[]): any {
   return issueTypes.find(issueType => issueType.name === JIRA_CONFIG.ISSUE_TYPE);
 }
 

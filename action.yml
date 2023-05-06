@@ -31,7 +31,7 @@ inputs:
       The type of the issue to be used while searching for existing issues.
       This is needed in order to avoid duplicating already raised issues
     required: true
-    default: ''
+    default: 'Task'
   EXTRA_JIRA_FIELDS:
     description: >
       Provide the extra fields you need to include in the payload sent to Jira during an issue creation
