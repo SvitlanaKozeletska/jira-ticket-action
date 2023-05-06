@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import {JIRA_CONFIG} from './config/config';
 
 function run(): void {
-  fetch(`${JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+  fetch(`${JIRA_CONFIG.JIRA_URI}${JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
       projectIds: JIRA_CONFIG.JIRA_PROJECT_ID
   })}`,
     {
@@ -29,7 +29,7 @@ function run(): void {
       }
 
       // get issue type metadata
-      return fetch(`${JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+      return fetch(`${JIRA_CONFIG.JIRA_URI}${JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
           projectIds: JIRA_CONFIG.JIRA_PROJECT_ID,
           issuetypeIds: issueMetadata['id'],
           expand: 'projects.issuetypes.fields'

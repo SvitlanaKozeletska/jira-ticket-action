@@ -7010,7 +7010,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 const config_1 = __nccwpck_require__(4561);
 function run() {
-    (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+    (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_URI}${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
         projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
     })}`, {
         method: 'GET',
@@ -7031,7 +7031,7 @@ function run() {
             throw new Error('Such issue type does not allowed for the current project');
         }
         // get issue type metadata
-        return (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
+        return (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_URI}${config_1.JIRA_CONFIG.JIRA_ISSUE_METADATA_ENDPOINT}?${new URLSearchParams({
             projectIds: config_1.JIRA_CONFIG.JIRA_PROJECT_ID,
             issuetypeIds: issueMetadata['id'],
             expand: 'projects.issuetypes.fields'
