@@ -7077,7 +7077,7 @@ function run() {
         // console.log(response.projects[0].issuetypes[0].fields);
         const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
         if (createIssueRequestBody) {
-            console.log(core.getInput('issue'));
+            console.log(core.getInput('issue')['assignee']);
             // createIssueRequestBody['project'] = {
             //   id: JIRA_CONFIG.JIRA_PROJECT_ID
             // };
@@ -7109,7 +7109,7 @@ function processIssueFields(fields) {
             var _a;
             const field = fields[key];
             if (field.required && !field.hasDefaultValue) {
-                console.log(field);
+                // console.log(field);
                 // explicitly check for fieldid = "issuetype"
                 // if (field.fieldId === "issuetype") {
                 //   issueField['issuetype'] = {
