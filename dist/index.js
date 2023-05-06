@@ -7075,15 +7075,28 @@ function run() {
         // list of issue screen fields to update
         // need to filter by required to create JIRA ticket
         const githubIssue = JSON.parse(core.getInput('issue'));
-        const createIssueRequestBody = Object.assign(Object.assign({}, processIssueRequiredFields(response.projects[0].issuetypes[0].fields)), { project: {
-                id: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
-            }, issuetype: {
-                name: config_1.JIRA_CONFIG.ISSUE_TYPE
-            }, assignee: {
-                name: githubIssue['assignee']['login']
-            }, summary: githubIssue['title'], description: githubIssue['body'] });
+        const createIssueRequestBody = {
+            fields: Object.assign(Object.assign({}, processIssueRequiredFields(response.projects[0].issuetypes[0].fields)), { project: {
+                    id: config_1.JIRA_CONFIG.JIRA_PROJECT_ID
+                }, issuetype: {
+                    name: config_1.JIRA_CONFIG.ISSUE_TYPE
+                }, assignee: {
+                    name: 'skozelet' //githubIssue['assignee']['login']
+                }, summary: githubIssue['title'], description: githubIssue['body'] })
+        };
         console.log('createIssueRequestBody', createIssueRequestBody);
+        // create JIRA ticket
+        return (0, node_fetch_1.default)(`${config_1.JIRA_CONFIG.JIRA_URI}${config_1.JIRA_CONFIG.JIRA_ISSUE_CREATION_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${config_1.JIRA_CONFIG.JIRA_TOKEN}`,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(createIssueRequestBody)
+        });
     })
+        .then(response => response.json())
+        .then(response => console.log('JIRA ticket', response))
         .catch(err => console.log(err));
 }
 // check whether provided ISSUE_TYPE is valid issue type for the specified project

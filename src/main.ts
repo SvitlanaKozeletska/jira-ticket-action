@@ -51,23 +51,37 @@ function run(): void {
       // need to filter by required to create JIRA ticket
       const githubIssue = JSON.parse(core.getInput('issue'));
       const createIssueRequestBody = {
-        ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields),
-        project: {
-          id: JIRA_CONFIG.JIRA_PROJECT_ID
-        },
-        issuetype: {
-          name: JIRA_CONFIG.ISSUE_TYPE
-        },
-        assignee: {
-          name: githubIssue['assignee']['login']
-        },
-        summary: githubIssue['title'],
-        description: githubIssue['body']
+        fields: {
+          ...processIssueRequiredFields(response.projects[0].issuetypes[0].fields),
+          project: {
+            id: JIRA_CONFIG.JIRA_PROJECT_ID
+          },
+          issuetype: {
+            name: JIRA_CONFIG.ISSUE_TYPE
+          },
+          assignee: {
+            name: 'skozelet' //githubIssue['assignee']['login']
+          },
+          summary: githubIssue['title'],
+          description: githubIssue['body']
+        }
       };
 
       console.log('createIssueRequestBody', createIssueRequestBody);
 
+      // create JIRA ticket
+      return fetch(`${JIRA_CONFIG.JIRA_URI}${JIRA_CONFIG.JIRA_ISSUE_CREATION_ENDPOINT}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${JIRA_CONFIG.JIRA_TOKEN}`,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(createIssueRequestBody)
+        })
     })
+    .then(response => response.json())
+    .then(response => console.log('JIRA ticket', response))
     .catch(err => console.log(err));
 }
 
