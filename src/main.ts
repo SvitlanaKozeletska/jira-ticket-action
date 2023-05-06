@@ -53,19 +53,20 @@ function run(): void {
       const createIssueRequestBody = processIssueFields(response.projects[0].issuetypes[0].fields);
 
       if (createIssueRequestBody) {
-        console.log(JSON.parse(core.getInput('issue'))['assignee']);
-        // createIssueRequestBody['project'] = {
-        //   id: JIRA_CONFIG.JIRA_PROJECT_ID
-        // };
-        // createIssueRequestBody['assignee'] = {
-        //   name: core.getInput('issue')['assignee']['login']
-        // };
-        // createIssueRequestBody['summary'] = {
-        //   name: core.getInput('issue')['title']
-        // };
-        // createIssueRequestBody['description'] = {
-        //   name: core.getInput('issue')['body']
-        // };
+        const issue = JSON.parse(core.getInput('issue'));
+
+        createIssueRequestBody['project'] = {
+          id: JIRA_CONFIG.JIRA_PROJECT_ID
+        };
+        createIssueRequestBody['assignee'] = {
+          name: issue['assignee']['login']
+        };
+        createIssueRequestBody['summary'] = {
+          name: issue['title']
+        };
+        createIssueRequestBody['description'] = {
+          name: issue['body']
+        };
       }
 
       console.log('createIssueRequestBody', createIssueRequestBody);
