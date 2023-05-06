@@ -7082,7 +7082,8 @@ function run() {
                     name: config_1.JIRA_CONFIG.ISSUE_TYPE
                 }, assignee: {
                     name: 'skozelet' //githubIssue['assignee']['login']
-                }, summary: githubIssue['title'], description: githubIssue['body'] })
+                }, summary: githubIssue['title'], description: githubIssue['body'] }),
+            update: {}
         };
         console.log('createIssueRequestBody', createIssueRequestBody);
         // create JIRA ticket

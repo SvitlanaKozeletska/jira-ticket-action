@@ -64,7 +64,8 @@ function run(): void {
           },
           summary: githubIssue['title'],
           description: githubIssue['body']
-        }
+        },
+        update: {}
       };
 
       console.log('createIssueRequestBody', createIssueRequestBody);
