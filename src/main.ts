@@ -75,7 +75,8 @@ function run(): void {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${JIRA_CONFIG.JIRA_TOKEN}`,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(createIssueRequestBody) //'fields', createIssueRequestBody
         })

@@ -7090,7 +7090,8 @@ function run() {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${config_1.JIRA_CONFIG.JIRA_TOKEN}`,
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(createIssueRequestBody) //'fields', createIssueRequestBody
         });
