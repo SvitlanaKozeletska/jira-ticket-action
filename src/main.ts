@@ -20,10 +20,7 @@ function run(): void {
     .then(response => response.json())
     .then((data) => data as JIRAIssueCreateMetadata)
     .then((response: JIRAIssueCreateMetadata) => {
-      // console.log(response.projects);
-
-      const issueMetadata = isIssueTypeValid(response.projects[0].issuetypes);
-      // console.log('issueMetadata:', issueMetadata);
+      const issueMetadata = findIssueTypeMetadata(response.projects[0].issuetypes);
 
       if (!issueMetadata) {
         throw new Error('Such issue type does not allowed for the current project');
@@ -83,11 +80,14 @@ function run(): void {
     })
     .then(response => response.json())
     .then(response => console.log('JIRA ticket', response))
-    .catch(err => console.log(err));
+    .catch(err => {
+      core.setFailed(err);
+      console.log(err);
+    });
 }
 
 // check whether provided ISSUE_TYPE is valid issue type for the specified project
-function isIssueTypeValid(issueTypes: IssueTypeIssueCreateMetadata[]): IssueTypeIssueCreateMetadata | undefined {
+function findIssueTypeMetadata(issueTypes: IssueTypeIssueCreateMetadata[]): IssueTypeIssueCreateMetadata | undefined {
   if (issueTypes.length) {
     return issueTypes.find(issueType => issueType.name === JIRA_CONFIG.ISSUE_TYPE);
   }
