@@ -5,7 +5,7 @@ import {JIRA_CONFIG} from './config/config';
 import {IssueTypeIssueCreateMetadata, JIRAIssueCreateMetadata, request} from './models/models';
 
 function run(): void {
-  console.log(context);
+  console.log(process.env.GITHUB_ISSUE_ASSIGNEES);
 }
 
 // check whether provided ISSUE_TYPE is valid issue type for the specified project
